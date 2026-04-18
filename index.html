@@ -50,8 +50,8 @@ async function getToken(){
 
 async function uploadFormOdoo(record,html){
   try{
-    const t=await getToken();if(!t)return;
-    const r=await fetch(EF_FORM,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+t},body:JSON.stringify({htmlContent:html,record})});
+    const t=await getToken();if(!t){console.warn("⚠️ Sin token");return;}
+    const r=await fetch(EF_FORM,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+t,"apikey":"sb_publishable_H-uirTEzoZoUfwC5umpmBQ_VEFS9zI2"},body:JSON.stringify({htmlContent:html,record})});
     const d=await r.json();
     if(d.ok)console.log("✅ Subido a Odoo:",d.fileName);
     else console.warn("⚠️ Odoo:",d.error);
@@ -60,8 +60,8 @@ async function uploadFormOdoo(record,html){
 
 async function uploadTempOdoo(html,yearMonth,area){
   try{
-    const t=await getToken();if(!t)return;
-    const r=await fetch(EF_TEMP,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+t},body:JSON.stringify({htmlContent:html,yearMonth,area})});
+    const t=await getToken();if(!t){console.warn("⚠️ Sin token");return;}
+    const r=await fetch(EF_TEMP,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+t,"apikey":"sb_publishable_H-uirTEzoZoUfwC5umpmBQ_VEFS9zI2"},body:JSON.stringify({htmlContent:html,yearMonth,area})});
     const d=await r.json();
     if(d.ok)console.log("✅ Temperaturas subidas a Odoo:",d.fileName);
     else console.warn("⚠️ Odoo:",d.error);
