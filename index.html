@@ -38,7 +38,15 @@ function sbOnAuthChange(callback){
 const EF_FORM="https://qyybvtskegnggfdjhzjq.supabase.co/functions/v1/upload-form";
 const EF_TEMP="https://qyybvtskegnggfdjhzjq.supabase.co/functions/v1/upload-temperatures";
 
-async function getToken(){const{data:{session}}=await sb.auth.getSession();return session?.access_token||null;}
+async function getToken(){
+  const{data:{session},error}=await sb.auth.getSession();
+  if(error||!session){
+    // Try refreshing the session
+    const{data:{session:s2}}=await sb.auth.refreshSession();
+    return s2?.access_token||null;
+  }
+  return session.access_token||null;
+}
 
 async function uploadFormOdoo(record,html){
   try{
